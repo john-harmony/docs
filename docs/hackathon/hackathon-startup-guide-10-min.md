@@ -12,42 +12,67 @@ For the start of the hackathon, it's fine to do development in the studio, but e
 
 This is the quick and dirty way to do that:
 
-### Running locally
+### 
 
-To run NEAR locally you would need docker, see [installation instructions](https://www.docker.com/get-started).
+## Running official TestNet locally
 
-Clone the nearcore repo from here: [https://github.com/nearprotocol/nearcore/](https://github.com/nearprotocol/nearcore/)
+By default we use Docker to run the client \(with auto-updating via watchtower to upgrade the node to the new versions automatically\).
 
-you can use:
+Follow next instructions to install Docker on your machine:
+
+* [MacOS](https://docs.docker.com/docker-for-mac/install/)
+* [Ubuntu](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+
+To run locally, clone the repo and use `./scripts/start_testnet.py`.
 
 ```bash
 git clone https://github.com/nearprotocol/nearcore.git
 cd nearcore
+./scripts/start_testnet.py
 ```
 
-Then run the following:
+This will ask you for account id to run validator on \(if you want to just run a node, you can pass empty\). Will print the public key that should be used for staking. And will start node in background inside the docker.
+
+If you want to check the logs inside the docker, you can use `docker logs --follow nearcore`.
+
+Alternatively, you can build and run validator on this machine, just use `--local` flag to switch off the Docker. This will install Rust and compile the binary.
+
+## Running official TestNet on GCP
+
+Create new instance, with at least:
+
+* 2 vCPU and 3.75 GB of RAM.
+* Select Ubuntu 18.04 LTS or later.
+* Allocate 100GB of persistent storage.
+
+Add firewall rules to allow traffic to 24567 port from all IPs \(0.0.0.0/0\)
+
+SSH into the machine \(there is "SSH" button in the console or use gcloud ssh command\).
+
+Run:
 
 ```bash
-./ops/deploy_local.sh
+sudo apt update
+sudo apt install -y git binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev cmake gcc g++ python docker.io protobuf-compiler
 ```
 
-After it starts you can open studio at [http://localhost](http://localhost).
+Now run commands from _Running TestNet locally_.
 
-To tear it down run:
+## Staking on official TestNet
+
+For staking, you first run the node following instructions above. Use account id that you want to stake with when `start_testnet` will ask you for account id.
+
+Note, you need to create account and fund it with tokens before you can stake. In the case of the official TestNet, you can create account via [https://wallet.nearprotocol.com](https://wallet.nearprotocol.com) or by asking on [https://near.chat](https://near.chat) to send you tokens.
+
+After that to become the validator, you need to do next steps \(you will need to have [nodejs/npm installed](https://www.npmjs.com/get-npm)\):
 
 ```bash
-./ops/teardown_local.sh
+npm install https://github.com/nearprotocol/near-shell
+near-shell stake <your account> <staking public key from when you started> <amount to stake>
+
 ```
 
-### Running remotely
-
-Similarly you deploy the network to the GCloud:
-
-```bash
-./ops/deploy_remote.sh
-```
-
-When the network is deployed it will print the address of the studio.
+After this, you need to wait ~5 minutes for bonding period on the TestNet to become validator. You can see you are a validator when in logs of the node when you see "V/" - where V means this node is currently a validator.
 
 ### Common questions and issues
 

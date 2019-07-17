@@ -1,7 +1,6 @@
 # Table of contents
 
 * [Overview](README.md)
-* [Apply for the Beta Program now!](https://nearprotocol.com/beta/)
 * [Prerequisites](prerequisites/README.md)
   * [Smart Contract Basics](prerequisites/the_basics.md)
   * [Writing Smart Contracts in Typescript](prerequisites/language-typescript.md)
