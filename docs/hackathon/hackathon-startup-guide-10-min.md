@@ -12,8 +12,6 @@ For the start of the hackathon, it's fine to do development in the studio, but e
 
 This is the quick and dirty way to do that:
 
-### 
-
 ## Running official TestNet locally
 
 By default we use Docker to run the client \(with auto-updating via watchtower to upgrade the node to the new versions automatically\).
@@ -69,12 +67,11 @@ After that to become the validator, you need to do next steps \(you will need to
 ```bash
 npm install https://github.com/nearprotocol/near-shell
 near-shell stake <your account> <staking public key from when you started> <amount to stake>
-
 ```
 
 After this, you need to wait ~5 minutes for bonding period on the TestNet to become validator. You can see you are a validator when in logs of the node when you see "V/" - where V means this node is currently a validator.
 
-### Common questions and issues
+## Common questions and issues
 
 Here is where you can find what common errors and issues people troubleshoot as they build.
 
